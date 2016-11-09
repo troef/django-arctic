@@ -1,0 +1,39 @@
+{% if inlines %}
+<section class="sortable-container">
+
+    {% if title %}
+    <header>
+        <h3>{{ title }}</h3>
+    </header>
+    {% endif %}
+
+    <div class="sortable" data-sortable
+        data-row=".sort-row"
+        data-handle=".fa-bars"
+        data-position='[name*="-order"]'
+
+        {% if has_delete %}
+            data-delete-handle=".fa-times"
+            data-delete-flag=".delete input">
+        {% endif %}
+
+        {% if can_append %}
+            data-append-template=".sort-row:last-child">
+        {% endif %}
+
+
+    {% for formset in inlines %}
+        {{ formset.management_form }}
+        {{ formset.non_form_errors }}
+
+        {% for form in formset %}
+        <div class="sort-row rule">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+            {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+        </div>
+        {% endfor %}
+    {% endfor %}
+    </div>
+
+</section>
+{% endif %}
