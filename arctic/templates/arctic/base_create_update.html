@@ -11,7 +11,11 @@
 
 
 {% block content %}
-    <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" data-abide>
+    {% comment %}
+        TODO
+            - is-hidden by flag!
+    {% endcomment %}
+    <form action="" method="POST" enctype="multipart/form-data" class="dirty-check" id="extended" data-toggler="is-hidden">
 
         {% csrf_token %}
         {% block form %}

@@ -1,0 +1,57 @@
+.sortable-container {
+    margin-bottom: 1rem;
+}
+
+.sortable {
+    display: table;
+    width: 100%;
+    border-width: 0 1px 1px;
+    border-style: solid;
+    border-color: $rules-border-color;
+
+    .sort-row {
+        display: table-row;
+        margin: 0;
+
+        > * {
+            display: table-cell;
+            border-top: 1px solid $rules-border-color;
+        }
+    }
+}
+
+
+.sortable .sort-row {
+
+    &:hover {
+        background-color: $greyLightest;
+    }
+
+    &.removed {
+        display: none;
+    }
+
+    // drag and delete icon
+    .fa {
+        margin: .8rem 1rem;
+        padding: .75rem .75rem;
+        color: $greyMedium;
+        vertical-align: middle;
+    }
+
+    .fa-times:hover {
+        color: $red;
+        cursor: pointer;
+    }
+
+    // field sizing
+    input,
+    select {
+        margin: 0;
+    }
+}
+
+// grabbed elemen
+.sortable-ghost {
+    opacity: .5;
+}

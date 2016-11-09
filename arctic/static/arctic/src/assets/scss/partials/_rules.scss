@@ -1,18 +1,11 @@
-.sortable-ghost {
-    opacity: .5;
-}
-
-
 .rules {
-    border: 1px solid $rules-border-color;
     border-radius: $global-radius;
-    margin-bottom: 1rem;
 
     header {
         text-align: right;
         padding: $marginLarge $marginMedium;
 
-        h4 {
+        h3 {
             float: left;
         }
 
@@ -27,20 +20,9 @@
     }
 }
 
-.rulesset {
-    display: table;
-    width: 100%;
+.rules {
 
-    .row {
-        display: table-row;
-        margin: 0;
-
-        > * {
-            display: table-cell;
-            border-top: 1px solid $rules-border-color;
-        }
-    }
-
+    // layout
     .fields {
         padding-bottom: .875rem;
     }
@@ -50,31 +32,6 @@
         margin-top: .875rem;
         margin-right: $marginSmall * 1.25;
     }
-}
-
-
-.rulesset .rule {
-
-    &:hover {
-        background-color: $greyLightest;
-    }
-
-    &.removed {
-        display: none;
-    }
-
-    // drag and delete icon
-    .fa {
-        margin: .8rem 1rem;
-        padding: .75rem .75rem;
-        color: $greyMedium;
-    }
-
-    .fa-times:hover {
-        color: $red;
-        cursor: pointer;
-    }
-
 
     // rule label
     .label {
@@ -94,13 +51,6 @@
         label {
             display: none;
         }
-    }
-
-
-    // field sizing
-    input,
-    select {
-        margin: 0;
     }
 
     .field input:not('checkbox'):not('radio'),

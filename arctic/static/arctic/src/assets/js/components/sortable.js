@@ -1,20 +1,21 @@
 /*
-    deps: Sortable
-    see https://github.com/RubaXa/Sortable
-
     Required html data attributes:
-    * data-sortable - initiates sortable)
+    * data-sortable - initiates sortable
     * data-row - defines a row to sort
 
     Optional
-    * data-sort-handle - to specify a specific dragging handle
-    * data-sort-placeholder - field to save position of row
+    * data-handle - to specify a specific dragging handle
+    * data-position - field to save position of row
 
     * data-delete-handle - delete button
-    * data-delete-placeholder - field to check as delete
+    * data-delete-flag - field to check as delete
+
+    deps: Sortable
+    * https://github.com/RubaXa/Sortable
+
  */
 
-( function ( $, Sort ) {
+( function ( $, SortableJS ) {
 
     'use strict'
 
@@ -23,41 +24,49 @@
         this.rowClass = "";
         this.row = "";
         this.sortHandle = "";
+        this.sortPosition = "";
         this.deleteHandle = "";
-        this.deletePlaceholder = "";
+        this.deleteFlag = "";
 
-        var self = this;
-        self.init();
+        if ( this.element.size() ) {
+            this.sortPosition = this.element.data( 'position' );
+            this.rowClass = this.element.data( 'row' );
+            this.row = this.element.find( this.rowClass );
+
+            // is there something to sort?
+            if ( !this.row.size() ) {
+                throw new Error( 'Sortable: data-to-sort not valid or empty' );
+                return
+            }
+
+            // handles
+            this.sortHandle = this.element.data( 'handle' );
+            this.deleteHandle = this.row.find( this.element.data( 'delete-handle' ) );
+
+            var self = this;
+            self.init();
+        }
     }
+
 
     Sortable.prototype.init = function ( ) {
         var self = this;
 
-        // is there a sortable element, if so gather information about setup
-        if ( self.element.size() ) {
-            self.rowClass = self.element.data( 'row' );
-            self.row = self.element.find( self.rowClass );
-
-            // error handling, is there something to sort?
-            if ( !self.row.size() ) {
-                console.log( 'Sortable: data-to-sort not valid or empty' );
-                return
-            }
-
-            // check if there's a delete button, if so listen to it
-            self.deleteHandle = self.row.find( self.element.data( 'delete-handle' ) );
-            if ( self.deleteHandle.size() ) {
-
-                self.deleteHandle.on( 'click', function ( event ) {
-                    self.remove( this, self );
-                });
-            }
-
-            // initiate sortable list
-            self.sorting();
+        // check if there's a delete button, if so listen to it
+        if ( self.deleteHandle.size() ) {
+            self.deleteHandle.on( 'click', function ( event ) {
+                self.remove( this, self );
+            });
         }
-    }
 
+        // initiate sortable list
+        self.sorting();
+
+        // listen to manual recalc event
+        self.element.on( 'recalc', function ( ) {
+            self.recalc();
+        });
+    }
 
     // initate sorting
     Sortable.prototype.sorting = function ( ) {
@@ -75,14 +84,13 @@
             }
         }
 
-        // is there a sort handle?
-        self.sortHandle = self.element.data( 'sort-handle' );
+        // sort handle setup
         if ( self.sortHandle != undefined ) {
             config.handle = self.sortHandle;
         }
 
         // init sortable
-        var sortable = Sort.create( htmlElement, config );
+        var sortable = SortableJS.create( htmlElement, config );
     },
 
 
@@ -95,43 +103,39 @@
         items.each( function ( i, el ) {
             var element = $( el );
             var index = parseInt( items.index( element ) );
-            var placeholder = element.data('sort-placeholder')
 
             // find placeholder within row if not exist check outside row
-            placeholder = element.find( placeholder );
-
-            if ( !( placeholder.size() )) {
-                placeholder = $( self.sortPlaceholder );
-            }
+            var position = element.find( self.sortPosition );
 
             // is there something to save to?
-            if ( placeholder.size() ) {
-                placeholder.val( index );
+            if ( position.size() ) {
+                position.val( index );
             }
         });
     },
 
-    // removes a row, by checking the delete checkbox
+
+    // removes a row, by checking the delete checkbox and place it as last item
     Sortable.prototype.remove = function ( el, self ) {
         var element = $( el );
-        var rule = element.closest( self.rowClass );
-        var ruleWrapper = rule.parent();
+        var row = element.closest( self.rowClass );
+
+        // find delete flag
+        self.deleteFlagClass = self.element.data( 'delete-flag' );
+        self.deleteFlag = row.find( self.deleteFlagClass );
 
         // flag for deletion if there's a placeholder
-        self.deletePlaceholderClass = self.element.data( 'delete-placeholder' );
-        self.deletePlaceholder = rule.find( self.deletePlaceholderClass );
-
-        if ( self.deletePlaceholder.size() ){
-            self.deletePlaceholder.prop( "checked", true );
+        if ( self.deleteFlag.size() ){
+            self.deleteFlag.prop( "checked", true );
         }
 
-        // hide rule
-        rule.addClass( 'removed' ).appendTo( ruleWrapper );
+        // hide row and place it as last
+        var wrapper = row.parent();
+        row.addClass( 'removed' ).appendTo( wrapper );
 
         // recalc positions
         self.recalc();
     }
-
 
     // initiate
     new Sortable();
