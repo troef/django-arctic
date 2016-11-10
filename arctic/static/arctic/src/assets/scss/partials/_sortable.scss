@@ -55,3 +55,10 @@
 .sortable-ghost {
     opacity: .5;
 }
+
+
+.sortable.can-append {
+    .is-template {
+        display: none;
+    }
+}

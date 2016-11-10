@@ -7,7 +7,8 @@
     </header>
     {% endif %}
 
-    <div class="sortable" data-sortable
+    <div class="sortable{% if can_append %} can-append{% endif %}"
+        data-sortable
         data-row=".sort-row"
         data-handle=".fa-bars"
         data-position='[name*="-order"]'
@@ -18,22 +19,26 @@
         {% endif %}
 
         {% if can_append %}
-            data-append-template=".sort-row:last-child">
+            data-template=".is-template"
+            data-template-button=".can-append-template">
         {% endif %}
 
+        {% for formset in inlines %}
+            {{ formset.management_form }}
+            {{ formset.non_form_errors }}
 
-    {% for formset in inlines %}
-        {{ formset.management_form }}
-        {{ formset.non_form_errors }}
-
-        {% for form in formset %}
-        <div class="sort-row rule">
-            <i class="fa fa-bars" aria-hidden="true"></i>
-            {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
-        </div>
+            {% for form in formset %}
+            <div class="sort-row rule{% if forloop.last %} is-template{% endif %}">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+                {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+            </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
     </div>
+
+    {% if can_append %}
+        <a class="button can-append-template">Add</a>
+    {% endif %}
 
 </section>
 {% endif %}
