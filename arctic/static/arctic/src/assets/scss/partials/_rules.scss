@@ -30,7 +30,6 @@
     .fields .field {
         display: inline-block;
         margin-top: .875rem;
-        margin-right: $marginSmall * 1.25;
     }
 
     // rule label
@@ -53,6 +52,15 @@
         }
     }
 
+}
+
+.sortable {
+
+    .fields .field {
+        display: inline-block;
+        margin-right: $marginSmall * 1.25;
+    }
+
     .field input:not('checkbox'):not('radio'),
     .field select {
         width: 100%;
@@ -70,6 +78,7 @@
 
     // specific fields
     .field.position,
+    .field.order,
     .field.delete {
         display: none;
     }

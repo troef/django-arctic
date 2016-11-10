@@ -1,9 +1,6 @@
-.sortable-container {
-    margin-bottom: 1rem;
-}
-
 .sortable {
     display: table;
+    margin-bottom: 1rem;
     width: 100%;
     border-width: 0 1px 1px;
     border-style: solid;
@@ -35,6 +32,7 @@
     .fa {
         margin: .8rem 1rem;
         padding: .75rem .75rem;
+        width: 40px;
         color: $greyMedium;
         vertical-align: middle;
     }
@@ -57,8 +55,21 @@
 }
 
 
-.sortable.can-append {
+.sortable.has-append {
+
     .is-template {
         display: none;
+    }
+}
+
+// specific
+.product-features {
+
+    .fields {
+        display: table-cell;
+    }
+
+    .field.options {
+        min-width: auto;
     }
 }

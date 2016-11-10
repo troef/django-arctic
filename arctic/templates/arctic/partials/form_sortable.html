@@ -1,5 +1,5 @@
 {% if inlines %}
-<section class="sortable-container">
+<section class="sortable-container {{ className }}">
 
     {% if title %}
     <header>
@@ -7,7 +7,7 @@
     </header>
     {% endif %}
 
-    <div class="sortable{% if can_append %} can-append{% endif %}"
+    <div class="sortable{% if has_append %} has-append{% endif %}"
         data-sortable
         data-row=".sort-row"
         data-handle=".fa-bars"
@@ -15,13 +15,14 @@
 
         {% if has_delete %}
             data-delete-handle=".fa-times"
-            data-delete-flag=".delete input">
+            data-delete-flag=".delete input"
         {% endif %}
 
-        {% if can_append %}
+        {% if has_append %}
             data-template=".is-template"
-            data-template-button=".can-append-template">
+            data-template-button=".has-append-template"
         {% endif %}
+        >
 
         {% for formset in inlines %}
             {{ formset.management_form }}
@@ -30,14 +31,17 @@
             {% for form in formset %}
             <div class="sort-row rule{% if forloop.last %} is-template{% endif %}">
                 <i class="fa fa-bars" aria-hidden="true"></i>
-                {% include "arctic/partials/form_fields.html" with form=form style="horizontal" %}
+                <div class="fields">
+                    {% include "arctic/partials/form_fields_inline.html" with form=form style="horizontal" %}
+                </div>
+                <i class="fa fa-times" aria-hidden="true"></i>
             </div>
             {% endfor %}
         {% endfor %}
     </div>
 
-    {% if can_append %}
-        <a class="button can-append-template">Add</a>
+    {% if has_append %}
+        <a class="button has-append-template">Add</a>
     {% endif %}
 
 </section>
