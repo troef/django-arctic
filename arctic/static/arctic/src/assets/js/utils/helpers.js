@@ -4,3 +4,9 @@ function slugify( Text ) {
         .replace( /[^\w ]+/g, '' )
         .replace( / +/g, '-' );
 }
+
+function getInt( string ) {
+    var value = string.replace( /[^\d.]/g, '' );
+    value = parseInt( value );
+    return value;
+}
