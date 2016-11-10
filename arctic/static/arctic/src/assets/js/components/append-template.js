@@ -53,8 +53,12 @@
 
             // if there's a selectize selectbox, destroy it before cloning
             var select = self.template.find( 'select' );
-            var selectize = select[0].selectize.destroy();
+
+            if ( select.length ) {
+                var selectize = select[0].selectize.destroy();
+            }
         }
+
 
         // remove template indentifier
         self.template.removeClass( self.templateClass.substring(1) ); // remove . in classname
