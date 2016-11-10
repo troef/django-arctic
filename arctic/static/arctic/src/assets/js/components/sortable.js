@@ -62,8 +62,8 @@
         // initiate sortable list
         self.sorting();
 
-        // listen to manual recalc event
-        self.element.on( 'recalc', function ( ) {
+        // listen to manual append event
+        self.element.on( 'append', function ( ) {
             self.recalc();
         });
     }

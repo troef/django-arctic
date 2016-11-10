@@ -90,7 +90,7 @@
         selectize();
 
         // trigger sortable recalc
-        self.element.trigger( 'recalc' );
+        self.element.trigger( 'append' );
     };
 
 
