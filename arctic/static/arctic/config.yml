@@ -75,8 +75,9 @@ PATHS:
     - "src/assets/js/components/form.js"
     - "src/assets/js/components/multi-toggler.js"
     - "src/assets/js/components/reveal-iframe.js"
+    - "src/assets/js/components/selectize.js"
+    - "src/assets/js/components/append-template.js" #deps on selectize
     - "src/assets/js/components/sortable.js"
     - "src/assets/js/!(app).js"
     - "src/assets/js/app.js"
     - "src/assets/js/components/query-builder.js"
-    - "src/assets/js/components/append-template.js"
