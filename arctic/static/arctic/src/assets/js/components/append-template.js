@@ -118,7 +118,7 @@
             if ( self.id.current ) {
                 self.id.current++;
             } else {
-                self.id.current = self.id.init + 1;
+                self.id.current = parseInt( self.id.init );
             }
 
             // update id's in template
