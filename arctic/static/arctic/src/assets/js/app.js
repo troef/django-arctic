@@ -95,6 +95,55 @@ function inlineWidget(css_class, template, dict, list_separator) {
 }
 
 function set_input_widgets() {
+    var s = $('.js-selectize');
+    if ( s.size() ) {
+        s.selectize(
+            {
+                allowEmptyOption: true,
+                highlight: false,
+                plugins: ['remove_button']
+            }
+        );
+    }
+
+
+    var s_tags = $('.js-selectize-tags');
+    if (s_tags.size()) {
+        s_tags.selectize({
+            delimiter: ',',
+            persist: false,
+            plugins: ['remove_button'],
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                }
+            }
+        });
+    }
+
+    $('.js-selectize-autocomplete').each(function(index) {
+        var url = $(this).attr('url');
+        $(this).selectize({
+            valueField: 'value',
+            labelField: 'label',
+            searchField: 'label',
+            create: false,
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: url + encodeURIComponent(query),
+                    type: 'GET',
+                    error: function() {
+                        callback();
+                    },
+                    success: function(res) {
+                        callback(res.options);
+                    }
+                });
+            }
+        });
+    });
 
     $('.js-datepicker').each(function(index) {
         $(this).datepicker({
@@ -165,7 +214,7 @@ $(document).ready(function() {
 
         $('form').on('dirty.areYouSure', function() {
             var tab = $('.tabs-title.is-active a')[0];
-            if (tab) {
+            if (tab && (tab.text[0] != '●')) {
                 tab.text = '● ' + tab.text;
             }
             document.title = '● ' + document.title;

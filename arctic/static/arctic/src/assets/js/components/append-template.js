@@ -111,7 +111,7 @@
             if ( !self.id ) {
                 self.id = {};
                 self.id.init = fields.last().attr('id');
-                self.id.init = getInt( self.id.init );
+                self.id.init = window.arctic.utils.getInt( self.id.init );
             }
 
             // set new current id
