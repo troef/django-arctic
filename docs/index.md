@@ -67,9 +67,10 @@ In `settings.py`:
             }
         }
 
-* Set the site name:
+* Set the site name and a minimal menu:
 
         ARCTIC_SITE_NAME = 'Arctic Hello World'
+        ARCTIC_MENU = (('Hello World', 'hello_world'), )
 
 
 Back in the terminal:
@@ -94,6 +95,7 @@ Edit `hello_world/views.py` and add the following:
         class HelloWorldView(TemplateView):
             page_title = "Hello"
             template_name = 'hello_world.html'
+            permission_required = False  # Visible for all authenticated users
 
 Create a `templates/hello_world.html` file with the content:
 
